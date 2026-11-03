@@ -187,3 +187,11 @@ footer{text-align:center;padding:25px;color:#777;font-size:13px}
 </body>
 
 </html>
+import json, base64, os
+d = json.load(open("jeab-silkscreen-site.json", encoding="utf-8"))
+for f in d["files"]:
+    os.makedirs(os.path.dirname(f["path"]) or ".", exist_ok=True)
+    if f["encoding"] == "base64":
+        open(f["path"], "wb").write(base64.b64decode(f["content"]))
+    else:
+        open(f["path"], "w", encoding="utf-8").write(f["content"])
